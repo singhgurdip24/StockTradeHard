@@ -1,7 +1,10 @@
 package com.hackerrank.stocktrade.util;
 
 import com.hackerrank.stocktrade.model.Trade;
+import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.TradeResponse;
+import com.hackerrank.stocktrade.payload.UserResponse;
+import com.hackerrank.stocktrade.repository.UserRepository;
 
 public class ModelMapper {
 
@@ -18,5 +21,15 @@ public class ModelMapper {
     tradeResponse.setTimestamp(trade.getTradeTimestamp());
 
     return tradeResponse;
+  }
+
+  public static UserResponse mapUserToUserResponse(User user) {
+
+    UserResponse userResponse = new UserResponse();
+
+    userResponse.setId(user.getId());
+    userResponse.setName(user.getName());
+
+    return userResponse;
   }
 }

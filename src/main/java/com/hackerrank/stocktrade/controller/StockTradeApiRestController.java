@@ -5,6 +5,7 @@ import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.SaveUserRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
+import com.hackerrank.stocktrade.payload.UserResponse;
 import com.hackerrank.stocktrade.service.TradeService;
 import com.hackerrank.stocktrade.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class StockTradeApiRestController {
 
         //return new ResponseEntity<>(HttpStatus.OK);
       return "OK";
+    }
+
+    @GetMapping("/users")
+    public List<UserResponse> getAllUsers(){
+        return userService.getAllUsers();
     }
 
     @PostMapping("/users")

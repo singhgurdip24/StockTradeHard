@@ -1,9 +1,12 @@
 package com.hackerrank.stocktrade.service;
 
 import com.hackerrank.stocktrade.model.Trade;
+import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
+import com.hackerrank.stocktrade.payload.UserResponse;
 import com.hackerrank.stocktrade.repository.TradeRepository;
+import com.hackerrank.stocktrade.repository.UserRepository;
 import com.hackerrank.stocktrade.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,9 @@ public class TradeService {
   @Autowired
   private TradeRepository tradeRepository;
 
+  @Autowired
+  private UserRepository userRepository;
+
   public List<TradeResponse> getAllTrades(){
     List<Trade> trades = tradeRepository.findAllByOrderByIdAsc();
 
@@ -35,7 +41,14 @@ public class TradeService {
 
     trade.setId(saveTradeRequest.getId());
     trade.setType(saveTradeRequest.getType());
-    trade.setUser(saveTradeRequest.getUser());
+
+    //check if user exists
+    //if not then add the user
+
+    User user = userRepository.findById(saveTradeRequest.getUser().getId())
+        .orElse(userRepository.save(saveTradeRequest.getUser()));
+    
+    trade.setUser(user);
     trade.setStockSymbol(saveTradeRequest.getSymbol());
     trade.setStockQuantity(saveTradeRequest.getShares());
     trade.setStockPrice(saveTradeRequest.getPrice());
