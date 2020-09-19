@@ -36,8 +36,9 @@ public class StockTradeApiRestController {
     private UserService userService;
 
     @DeleteMapping("/erase")
-    void erase() {
-        trades.clear();
+    public ResponseEntity<?> deleteAllTrades() {
+        tradeService.deleteAllTrades();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/trades")

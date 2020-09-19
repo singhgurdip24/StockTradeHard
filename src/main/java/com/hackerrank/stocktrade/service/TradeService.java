@@ -4,19 +4,14 @@ import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
-import com.hackerrank.stocktrade.payload.UserResponse;
 import com.hackerrank.stocktrade.repository.TradeRepository;
 import com.hackerrank.stocktrade.repository.UserRepository;
 import com.hackerrank.stocktrade.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-//import javax.validation.Valid;
 
 @Service
 public class TradeService {
@@ -60,5 +55,17 @@ public class TradeService {
     tradeRepository.save(trade);
 
     return true;
+  }
+
+  public void deleteAllTrades() {
+
+    /*
+    get List< User > by using findAllById(ids)
+    deleteAll(List< User > entities)
+    */
+
+    //List<Trade> tradeList = tradeRepository.findAllByOrderByIdAsc();
+    tradeRepository.deleteAll();
+
   }
 }
