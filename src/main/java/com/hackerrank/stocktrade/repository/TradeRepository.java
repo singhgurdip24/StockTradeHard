@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface TradeRepository extends CrudRepository<Trade, Long> {
 
   List<Trade> findAllByOrderByIdAsc();
+
+  Optional<Trade> findById(Long id);
 }

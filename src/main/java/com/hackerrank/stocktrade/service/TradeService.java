@@ -35,7 +35,11 @@ public class TradeService {
     })).collect(Collectors.toList());
   }
 
-  public Trade saveNewTrade(SaveTradeRequest saveTradeRequest) {
+  public boolean saveNewTrade(SaveTradeRequest saveTradeRequest) {
+
+    if (tradeRepository.findById(saveTradeRequest.getId()).isPresent()) {
+      return false;
+    }
 
     Trade trade = new Trade();
 
@@ -44,10 +48,9 @@ public class TradeService {
 
     //check if user exists
     //if not then add the user
-
     User user = userRepository.findById(saveTradeRequest.getUser().getId())
         .orElse(userRepository.save(saveTradeRequest.getUser()));
-    
+
     trade.setUser(user);
     trade.setStockSymbol(saveTradeRequest.getSymbol());
     trade.setStockQuantity(saveTradeRequest.getShares());
@@ -56,6 +59,6 @@ public class TradeService {
 
     tradeRepository.save(trade);
 
-    return trade;
+    return true;
   }
 }

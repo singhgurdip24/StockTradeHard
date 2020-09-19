@@ -46,13 +46,16 @@ public class StockTradeApiRestController {
     }
 
     @PostMapping("/trades")
-    public String postNewTrade(
+    public ResponseEntity<?> postNewTrade(
         @RequestBody SaveTradeRequest saveTradeRequest
     ) throws IOException {
-        Trade trade = tradeService.saveNewTrade(saveTradeRequest);
+        boolean saved = tradeService.saveNewTrade(saveTradeRequest);
 
-        //return new ResponseEntity<>(HttpStatus.OK);
-      return "OK";
+        if(!saved) {
+            return new ResponseEntity<>("Duplicate Trade Id", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(saveTradeRequest,HttpStatus.OK);
     }
 
     @GetMapping("/users")
