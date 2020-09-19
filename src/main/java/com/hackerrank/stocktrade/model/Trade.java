@@ -1,14 +1,31 @@
 package com.hackerrank.stocktrade.model;
 
-import java.sql.Timestamp;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.TimeZone;
+
+@Table(name =  "trades")
+@Entity
 public class Trade {
+
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "trade_id", unique = true, nullable = false)
     private Long id;
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",nullable=false)
     private User user;
+
     private String stockSymbol;
     private Integer stockQuantity;
     private Float stockPrice;
+
+    @Column(name = "requestTimestamp")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp tradeTimestamp;
 
     public Trade() {
