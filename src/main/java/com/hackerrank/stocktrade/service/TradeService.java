@@ -8,9 +8,12 @@ import com.hackerrank.stocktrade.repository.TradeRepository;
 import com.hackerrank.stocktrade.repository.UserRepository;
 import com.hackerrank.stocktrade.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,9 +28,7 @@ public class TradeService {
   public List<TradeResponse> getAllTrades(){
     List<Trade> trades = tradeRepository.findAllByOrderByIdAsc();
 
-    return trades.stream().map((trade -> {
-      return ModelMapper.mapTradeToTradeResponse(trade);
-    })).collect(Collectors.toList());
+    return trades.stream().map((ModelMapper::mapTradeToTradeResponse)).collect(Collectors.toList());
   }
 
   public boolean saveNewTrade(SaveTradeRequest saveTradeRequest) {
@@ -36,16 +37,14 @@ public class TradeService {
       return false;
     }
 
-    Trade trade = new Trade();
-
-    trade.setId(saveTradeRequest.getId());
-    trade.setType(saveTradeRequest.getType());
-
     //check if user exists
     //if not then add the user
     User user = userRepository.findById(saveTradeRequest.getUser().getId())
         .orElse(userRepository.save(saveTradeRequest.getUser()));
 
+    Trade trade = new Trade();
+    trade.setId(saveTradeRequest.getId());
+    trade.setType(saveTradeRequest.getType());
     trade.setUser(user);
     trade.setStockSymbol(saveTradeRequest.getSymbol());
     trade.setStockQuantity(saveTradeRequest.getShares());
@@ -53,19 +52,24 @@ public class TradeService {
     trade.setTradeTimestamp(saveTradeRequest.getTimestamp());
 
     tradeRepository.save(trade);
-
     return true;
   }
 
   public void deleteAllTrades() {
-
-    /*
-    get List< User > by using findAllById(ids)
-    deleteAll(List< User > entities)
-    */
-
-    //List<Trade> tradeList = tradeRepository.findAllByOrderByIdAsc();
     tradeRepository.deleteAll();
+  }
 
+  public ResponseEntity<?> getAllTradesByUser(Long userID) {
+
+    if (userRepository.findById(userID).isPresent()){
+      List<Trade> tradeList = tradeRepository.findAllByUserAsc(userID);
+      return new ResponseEntity<>(tradeList,HttpStatus.OK);
+    }
+    return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+
+  }
+
+  public ResponseEntity<?> getStockHighLowForDateRange(String stocksSymbol, String startDate, String endDate) {
+    return new ResponseEntity<>("OK", HttpStatus.OK);
   }
 }

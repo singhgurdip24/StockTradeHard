@@ -18,6 +18,9 @@ public class ModelMapper {
     tradeResponse.setSymbol(trade.getStockSymbol());
     tradeResponse.setShares(trade.getStockQuantity());
     tradeResponse.setPrice(trade.getStockPrice());
+
+
+
     tradeResponse.setTimestamp(trade.getTradeTimestamp());
 
     return tradeResponse;

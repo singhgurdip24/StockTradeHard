@@ -51,12 +51,10 @@ public class StockTradeApiRestController {
         @RequestBody SaveTradeRequest saveTradeRequest
     ) throws IOException {
         boolean saved = tradeService.saveNewTrade(saveTradeRequest);
-
         if(!saved) {
             return new ResponseEntity<>("Duplicate Trade Id", HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(saveTradeRequest,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/users")
@@ -65,14 +63,30 @@ public class StockTradeApiRestController {
     }
 
     @PostMapping("/users")
-    public String postNewUser(
+    public ResponseEntity<?> postNewUser(
       @RequestBody SaveUserRequest saveNewUser
     ) throws IOException {
         User user = userService.saveNewUser(saveNewUser);
 
-        //return new ResponseEntity<>(HttpStatus.OK);
-        return user.getName();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/trades/users/{userID}")
+    public ResponseEntity<?> getAllTradesByUser(
+      @PathVariable(value = "userID") Long userID
+    ){
+        return tradeService.getAllTradesByUser(userID);
+    }
+
+  @GetMapping("/stocks/{stocksSymbol}/price")
+  public ResponseEntity<?> getStockHighLowForDateRange(
+    @PathVariable(value = "stocksSymbol") String stocksSymbol,
+    @RequestParam(value = "start", required = true) String startDate,
+    @RequestParam(value = "end", required = true) String endDate
+  ){
+    return tradeService.getStockHighLowForDateRange(stocksSymbol, startDate, endDate);
+  }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.hackerrank.stocktrade.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hackerrank.stocktrade.model.User;
 
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ public class TradeResponse {
   private String symbol;
   private Integer shares;
   private Float price;
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private Timestamp timestamp;
 
   public Long getId() {
