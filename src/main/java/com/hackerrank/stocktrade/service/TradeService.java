@@ -2,6 +2,7 @@ package com.hackerrank.stocktrade.service;
 
 import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
+import com.hackerrank.stocktrade.payload.ApiResponse;
 import com.hackerrank.stocktrade.payload.HighestLowestPrice;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
@@ -12,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,7 +75,19 @@ public class TradeService {
 
   public ResponseEntity<?> getStockHighLowForDateRange(String stockSymbol, Date startDate, Date endDate) {
 
-    HighestLowestPrice trade = tradeRepository.getHighestLowestPrice(stockSymbol,startDate,endDate);
-    return new ResponseEntity<>(trade, HttpStatus.OK);
+    List<Trade> trade = tradeRepository.findAllByStockSymbol(stockSymbol);
+
+    if(trade.isEmpty()){
+      return new ResponseEntity<>(new ApiResponse("Stock Symbol does not exist"), HttpStatus.NOT_FOUND);
+    }
+
+    Optional<HighestLowestPrice> priceDetail = tradeRepository.getHighestLowestPrice(stockSymbol,startDate,endDate);
+
+    if(priceDetail.isPresent()){
+      return new ResponseEntity<>(priceDetail.get(), HttpStatus.OK);
+    }
+
+    return new ResponseEntity<>(new ApiResponse("There are no trades in the given date range"), HttpStatus.OK);
+
   }
 }

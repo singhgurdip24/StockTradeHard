@@ -20,7 +20,9 @@ public interface TradeRepository extends CrudRepository<Trade, Long> {
   List<Trade> findAllByUserByOrderByIdAsc(@Param("userId") Long userID);
 
   @Query(value="Select new com.hackerrank.stocktrade.payload.HighestLowestPrice(t.stockSymbol as symbol, MAX(t.stockPrice) as highest, MIN(t.stockPrice) as lowest) FROM Trade t WHERE t.stockSymbol = :stockSymbol AND t.tradeTimestamp >=  :startDate AND t.tradeTimestamp <= :endDate GROUP BY t.stockSymbol")
-  HighestLowestPrice getHighestLowestPrice(@Param("stockSymbol") String stockSymbol,
+  Optional<HighestLowestPrice> getHighestLowestPrice(@Param("stockSymbol") String stockSymbol,
                                                       @Param("startDate") Date startDate,
                                                       @Param("endDate") Date endDate);
+
+  List<Trade> findAllByStockSymbol(String stockSymbol);
 }
