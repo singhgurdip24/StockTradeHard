@@ -1,5 +1,6 @@
 package com.hackerrank.stocktrade.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
@@ -9,12 +10,15 @@ import com.hackerrank.stocktrade.payload.UserResponse;
 import com.hackerrank.stocktrade.service.TradeService;
 import com.hackerrank.stocktrade.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,15 +82,12 @@ public class StockTradeApiRestController {
         return tradeService.getAllTradesByUser(userID);
     }
 
-  @GetMapping("/stocks/{stocksSymbol}/price")
+  @GetMapping("/stocks/{stockSymbol}/price")
   public ResponseEntity<?> getStockHighLowForDateRange(
-    @PathVariable(value = "stocksSymbol") String stocksSymbol,
-    @RequestParam(value = "start", required = true) String startDate,
-    @RequestParam(value = "end", required = true) String endDate
+    @PathVariable(value = "stockSymbol") String stockSymbol,
+    @RequestParam(value = "start", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+    @RequestParam(value = "end", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
   ){
-    return tradeService.getStockHighLowForDateRange(stocksSymbol, startDate, endDate);
+    return tradeService.getStockHighLowForDateRange(stockSymbol, startDate, endDate);
   }
-
-
-
 }

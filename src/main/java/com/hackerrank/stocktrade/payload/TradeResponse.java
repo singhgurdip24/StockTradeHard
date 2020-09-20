@@ -12,6 +12,7 @@ public class TradeResponse {
   private String symbol;
   private Integer shares;
   private Float price;
+
   @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
   private Timestamp timestamp;
 

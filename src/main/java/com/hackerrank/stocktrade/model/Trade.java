@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.TimeZone;
 
 @Table(name =  "trades")
 @Entity

@@ -2,6 +2,7 @@ package com.hackerrank.stocktrade.service;
 
 import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
+import com.hackerrank.stocktrade.payload.HighestLowestPrice;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
 import com.hackerrank.stocktrade.repository.TradeRepository;
@@ -12,8 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,14 +64,20 @@ public class TradeService {
   public ResponseEntity<?> getAllTradesByUser(Long userID) {
 
     if (userRepository.findById(userID).isPresent()){
-      List<Trade> tradeList = tradeRepository.findAllByUserAsc(userID);
+      List<Trade> tradeList = tradeRepository.findAllByUserByOrderByIdAsc(userID);
       return new ResponseEntity<>(tradeList,HttpStatus.OK);
     }
     return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
 
   }
 
-  public ResponseEntity<?> getStockHighLowForDateRange(String stocksSymbol, String startDate, String endDate) {
-    return new ResponseEntity<>("OK", HttpStatus.OK);
+  public ResponseEntity<?> getStockHighLowForDateRange(String stockSymbol, Date startDate1, Date endDate1) {
+
+
+    Timestamp startDate=new Timestamp(startDate1.getTime());
+    Timestamp endDate=new Timestamp(endDate1.getTime());
+
+    HighestLowestPrice trade = tradeRepository.getHighestLowestPrice(stockSymbol,startDate,endDate);
+    return new ResponseEntity<>(trade, HttpStatus.OK);
   }
 }

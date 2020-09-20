@@ -4,7 +4,6 @@ import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.TradeResponse;
 import com.hackerrank.stocktrade.payload.UserResponse;
-import com.hackerrank.stocktrade.repository.UserRepository;
 
 public class ModelMapper {
 
@@ -18,9 +17,6 @@ public class ModelMapper {
     tradeResponse.setSymbol(trade.getStockSymbol());
     tradeResponse.setShares(trade.getStockQuantity());
     tradeResponse.setPrice(trade.getStockPrice());
-
-
-
     tradeResponse.setTimestamp(trade.getTradeTimestamp());
 
     return tradeResponse;
