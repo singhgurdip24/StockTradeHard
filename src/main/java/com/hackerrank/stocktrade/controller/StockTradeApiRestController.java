@@ -1,7 +1,5 @@
 package com.hackerrank.stocktrade.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hackerrank.stocktrade.model.Trade;
 import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
 import com.hackerrank.stocktrade.payload.SaveUserRequest;
@@ -15,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +67,6 @@ public class StockTradeApiRestController {
       @RequestBody SaveUserRequest saveNewUser
     ) throws IOException {
         User user = userService.saveNewUser(saveNewUser);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,11 +70,7 @@ public class TradeService {
 
   }
 
-  public ResponseEntity<?> getStockHighLowForDateRange(String stockSymbol, Date startDate1, Date endDate1) {
-
-
-    Timestamp startDate=new Timestamp(startDate1.getTime());
-    Timestamp endDate=new Timestamp(endDate1.getTime());
+  public ResponseEntity<?> getStockHighLowForDateRange(String stockSymbol, Date startDate, Date endDate) {
 
     HighestLowestPrice trade = tradeRepository.getHighestLowestPrice(stockSymbol,startDate,endDate);
     return new ResponseEntity<>(trade, HttpStatus.OK);

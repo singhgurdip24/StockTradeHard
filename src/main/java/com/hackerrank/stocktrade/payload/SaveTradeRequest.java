@@ -3,7 +3,6 @@ package com.hackerrank.stocktrade.payload;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hackerrank.stocktrade.model.User;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class SaveTradeRequest {
