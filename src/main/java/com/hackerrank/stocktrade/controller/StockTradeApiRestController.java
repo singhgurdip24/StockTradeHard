@@ -85,4 +85,12 @@ public class StockTradeApiRestController {
   ){
     return tradeService.getStockHighLowForDateRange(stockSymbol, startDate, endDate);
   }
+
+    @GetMapping("/stocks/stats")
+    public ResponseEntity<?> getStockFluctuations(
+      @RequestParam(value = "start", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+      @RequestParam(value = "end", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
+    ){
+        return tradeService.getStockFluctuations(startDate, endDate);
+    }
 }

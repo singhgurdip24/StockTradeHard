@@ -16,7 +16,7 @@ public interface TradeRepository extends CrudRepository<Trade, Long> {
 
   Optional<Trade> findById(Long id);
 
-  @Query("FROM Trade t WHERE t.user.id = :userId order by t.id asc")
+  @Query(value="FROM Trade t WHERE t.user.id = :userId order by t.id asc")
   List<Trade> findAllByUserByOrderByIdAsc(@Param("userId") Long userID);
 
   @Query(value="Select new com.hackerrank.stocktrade.payload.HighestLowestPrice(t.stockSymbol as symbol, MAX(t.stockPrice) as highest, MIN(t.stockPrice) as lowest) FROM Trade t WHERE t.stockSymbol = :stockSymbol AND t.tradeTimestamp >=  :startDate AND t.tradeTimestamp <= :endDate GROUP BY t.stockSymbol")
@@ -25,4 +25,11 @@ public interface TradeRepository extends CrudRepository<Trade, Long> {
                                                       @Param("endDate") Date endDate);
 
   List<Trade> findAllByStockSymbol(String stockSymbol);
+
+  @Query(value="From Trade t WHERE t.tradeTimestamp >=  :startDate AND t.tradeTimestamp <= :endDate order by t.tradeTimestamp asc")
+  List<Trade> findStocksInRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+  @Query(value="Select DISTINCT t.stockSymbol as symbol FROM Trade t")
+  List<String> findDistinctStocks();
+
 }
