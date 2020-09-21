@@ -122,15 +122,31 @@ public class TradeService {
   }
 
   private Long countFluctuations(List<Trade> tradeList){
-    Long count = 1L;
+    Long count = 0L;
+    if(tradeList.size()< 3) {
+      return 0L;
+    }
+
+    for(int i=0; i < tradeList.size() -2 ; i++){
+      if((tradeList.get(i).getStockPrice() < tradeList.get(i+1).getStockPrice()
+        && tradeList.get(i+1).getStockPrice() > tradeList.get(i+2).getStockPrice())||
+        tradeList.get(i).getStockPrice() > tradeList.get(i+1).getStockPrice()
+          && tradeList.get(i+1).getStockPrice() < tradeList.get(i+2).getStockPrice()
+      ) {
+        System.out.println(i + " " + tradeList.get(i).getStockPrice());
+        count++;
+      }
+    }
 
     return count;
   }
 
   private HashMap<String,Float> calculate(List<Trade> tradeList){
     HashMap<String,Float> result = new HashMap<>();
+
     result.put("MaxRise",100.00F);
     result.put("MaxFall",50.00F);
+
     return result;
   }
 }
