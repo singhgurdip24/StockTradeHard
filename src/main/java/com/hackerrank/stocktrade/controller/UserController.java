@@ -25,9 +25,7 @@ public class UserController {
   }
 
   @PostMapping("/users")
-  public ResponseEntity<?> postNewUser(
-    @RequestBody SaveUserRequest saveNewUser) throws IOException 
-  {
+  public ResponseEntity<?> postNewUser(@RequestBody SaveUserRequest saveNewUser){
     User user = userService.saveNewUser(saveNewUser);
     return new ResponseEntity<>(HttpStatus.OK);
   }

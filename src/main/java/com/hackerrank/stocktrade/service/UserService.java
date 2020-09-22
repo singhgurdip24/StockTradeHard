@@ -30,9 +30,6 @@ public class UserService {
   public List<UserResponse> getAllUsers() {
 
     List<User> users = userRepository.findAllByOrderByIdAsc();
-
-    return users.stream().map((user -> {
-      return ModelMapper.mapUserToUserResponse(user);
-    })).collect(Collectors.toList());
+    return users.stream().map((user -> {return ModelMapper.mapUserToUserResponse(user);})).collect(Collectors.toList());
   }
 }
