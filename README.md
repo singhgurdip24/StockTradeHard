@@ -9,6 +9,12 @@
 2. Spring Boot
 3. Maven
 
+# Usage (Running the Application) :-
+```sh
+mvn clean package spring-boot:repackage
+java -jar target/StockTradeHard-1.0-SNAPSHOT.jar
+```
+
 # Screenshots
 1) Spring Application Run Successfully:-
 
