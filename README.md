@@ -12,8 +12,11 @@
 # Screenshots
 1) Spring Application Run Successfully:-
 
+![alt text](https://github.com/singhgurdip24/StockTradeHard/blob/master/images/Screenshot2?raw=true)
 
 2) Test Result Pass:-
+
+![alt text](https://github.com/singhgurdip24/StockTradeHard/blob/master/images/Screenshot1?raw=true)
 
 # Author
 
