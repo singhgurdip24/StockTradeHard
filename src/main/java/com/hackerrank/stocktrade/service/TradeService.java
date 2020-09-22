@@ -159,8 +159,8 @@ public class TradeService {
           max_rise = rise;
         }
     }
-    result.put("MaxRise",max_rise);
-    result.put("MaxFall",max_fall);
+    result.put("MaxRise",Math.round(max_rise * 100.0) / 100.0F);
+    result.put("MaxFall",Math.round(max_fall * 100.0) / 100.0F);
 
     return result;
   }

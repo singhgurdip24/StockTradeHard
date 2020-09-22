@@ -21,7 +21,7 @@ public class Trade {
     private String stockSymbol;
     private Integer stockQuantity;
 
-    @Column(precision=2, scale=2)
+    @Column(columnDefinition="Decimal(10,2)")
     private Float stockPrice;
 
     @Column(name = "requestTimestamp")
