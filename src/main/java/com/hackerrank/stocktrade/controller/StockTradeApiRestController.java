@@ -1,10 +1,7 @@
 package com.hackerrank.stocktrade.controller;
 
-import com.hackerrank.stocktrade.model.User;
 import com.hackerrank.stocktrade.payload.SaveTradeRequest;
-import com.hackerrank.stocktrade.payload.SaveUserRequest;
 import com.hackerrank.stocktrade.payload.TradeResponse;
-import com.hackerrank.stocktrade.payload.UserResponse;
 import com.hackerrank.stocktrade.service.TradeService;
 import com.hackerrank.stocktrade.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,41 +47,31 @@ public class StockTradeApiRestController {
     public ResponseEntity<?> postNewTrade(
         @RequestBody SaveTradeRequest saveTradeRequest
     ) throws IOException {
+        // return 0 if duplicate trade id is present
         boolean saved = tradeService.saveNewTrade(saveTradeRequest);
         if(!saved) {
             return new ResponseEntity<>("Duplicate Trade Id", HttpStatus.BAD_REQUEST);
         }
+        //successfully saved
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/users")
-    public List<UserResponse> getAllUsers(){
-        return userService.getAllUsers();
-    }
-
-    @PostMapping("/users")
-    public ResponseEntity<?> postNewUser(
-      @RequestBody SaveUserRequest saveNewUser
-    ) throws IOException {
-        User user = userService.saveNewUser(saveNewUser);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     @GetMapping("/trades/users/{userID}")
     public ResponseEntity<?> getAllTradesByUser(
-      @PathVariable(value = "userID") Long userID
+        @PathVariable(value = "userID") Long userID
     ){
         return tradeService.getAllTradesByUser(userID);
     }
 
-  @GetMapping("/stocks/{stockSymbol}/price")
-  public ResponseEntity<?> getStockHighLowForDateRange(
-    @PathVariable(value = "stockSymbol") String stockSymbol,
-    @RequestParam(value = "start", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
-    @RequestParam(value = "end", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
-  ){
-    return tradeService.getStockHighLowForDateRange(stockSymbol, startDate, endDate);
-  }
+    @GetMapping("/stocks/{stockSymbol}/price")
+    public ResponseEntity<?> getStockHighLowForDateRange(
+        @PathVariable(value = "stockSymbol") String stockSymbol,
+        @RequestParam(value = "start", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+        @RequestParam(value = "end", required = true) @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate
+    ){
+        return tradeService.getStockHighLowForDateRange(stockSymbol, startDate, endDate);
+    }
 
     @GetMapping("/stocks/stats")
     public ResponseEntity<?> getStockFluctuations(

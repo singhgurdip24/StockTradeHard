@@ -22,7 +22,6 @@ public class UserService {
     User user = new User();
     user.setId(saveNewUser.getId());
     user.setName(saveNewUser.getName());
-
     userRepository.save(user);
 
     return user;

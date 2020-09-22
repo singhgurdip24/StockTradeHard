@@ -28,8 +28,7 @@ public class Trade {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp tradeTimestamp;
 
-    public Trade() {
-    }
+    public Trade() {}
 
     public Trade(Long id, String type, User user, String stockSymbol, Integer stockQuantity, Float stockPrice, Timestamp tradeTimestamp) {
         this.id = id;

@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
+  // Find all users sorted in ascending order
   List<User> findAllByOrderByIdAsc();
 
+  // Find user by id
   Optional<User> findById(Long id);
 }

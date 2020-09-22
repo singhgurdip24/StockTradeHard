@@ -8,7 +8,6 @@ import java.util.Set;
 public class User {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true, nullable = false)
     private Long id;
     private String name;
@@ -16,8 +15,7 @@ public class User {
     @OneToMany(mappedBy="user")
     private Set<Trade> tradeSet;
 
-    public User() {
-    }
+    public User() {}
 
     public User(Long id, String name) {
         this.id = id;

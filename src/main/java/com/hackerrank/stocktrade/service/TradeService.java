@@ -25,12 +25,12 @@ public class TradeService {
 
   public List<TradeResponse> getAllTrades(){
     List<Trade> trades = tradeRepository.findAllByOrderByIdAsc();
-
     return trades.stream().map((ModelMapper::mapTradeToTradeResponse)).collect(Collectors.toList());
   }
 
   public boolean saveNewTrade(SaveTradeRequest saveTradeRequest) {
 
+    // check if trade id already exists
     if (tradeRepository.findById(saveTradeRequest.getId()).isPresent()) {
       return false;
     }
@@ -40,6 +40,7 @@ public class TradeService {
     User user = userRepository.findById(saveTradeRequest.getUser().getId())
         .orElse(userRepository.save(saveTradeRequest.getUser()));
 
+    // DTO Conversion from request to Object
     Trade trade = new Trade();
     trade.setId(saveTradeRequest.getId());
     trade.setType(saveTradeRequest.getType());
@@ -49,6 +50,7 @@ public class TradeService {
     trade.setStockPrice(saveTradeRequest.getPrice());
     trade.setTradeTimestamp(saveTradeRequest.getTimestamp());
 
+    // save trade in database
     tradeRepository.save(trade);
     return true;
   }
@@ -59,6 +61,7 @@ public class TradeService {
 
   public ResponseEntity<?> getAllTradesByUser(Long userID) {
 
+    // get trades by user if user exists
     if (userRepository.findById(userID).isPresent()){
       List<Trade> tradeList = tradeRepository.findAllByUserByOrderByIdAsc(userID);
       return new ResponseEntity<>(tradeList,HttpStatus.OK);
@@ -71,10 +74,12 @@ public class TradeService {
 
     List<Trade> trade = tradeRepository.findAllByStockSymbol(stockSymbol);
 
+    // check if stock symbol exists
     if(trade.isEmpty()){
       return new ResponseEntity<>(new ApiResponse("Stock Symbol does not exist"), HttpStatus.NOT_FOUND);
     }
 
+    // This makes sure we are getting all trades from end date
     Calendar c = Calendar.getInstance();
     c.setTime(endDate);
     c.add(Calendar.DATE, 1);
@@ -101,11 +106,13 @@ public class TradeService {
     List<String> stocksInTradeList = tradesList.stream().map(trade -> trade.getStockSymbol()).collect(Collectors.toList());
     List<String> stocks = tradeRepository.findDistinctStocks();
 
+    // check the stock symbols for which trades does not exist in the given range
     stocks.removeAll(stocksInTradeList);
     stocks.forEach( stock -> fluctuationCountResponses.add(new NoStatResponse(stock,"There are no trades in the given date range")));
 
     HashMap<String, List<Trade>> symbolTradeMap = new HashMap<>();
 
+    // Separate trades as per symbol into a Hashmap
     for (Trade trade: tradesList) {
       String stockSymbol = trade.getStockSymbol();
 
@@ -140,8 +147,8 @@ public class TradeService {
     for(int i=0; i < tradeList.size() -2 ; i++){
       if((tradeList.get(i).getStockPrice() < tradeList.get(i+1).getStockPrice()
         && tradeList.get(i+1).getStockPrice() > tradeList.get(i+2).getStockPrice())||
-        tradeList.get(i).getStockPrice() > tradeList.get(i+1).getStockPrice()
-          && tradeList.get(i+1).getStockPrice() < tradeList.get(i+2).getStockPrice()
+        (tradeList.get(i).getStockPrice() > tradeList.get(i+1).getStockPrice()
+          && tradeList.get(i+1).getStockPrice() < tradeList.get(i+2).getStockPrice())
       ) {
         System.out.println(i + " " + tradeList.get(i).getStockPrice());
         count++;
