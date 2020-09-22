@@ -144,8 +144,23 @@ public class TradeService {
   private HashMap<String,Float> calculate(List<Trade> tradeList){
     HashMap<String,Float> result = new HashMap<>();
 
-    result.put("MaxRise",100.00F);
-    result.put("MaxFall",50.00F);
+    Float max_rise = 0F;
+    Float max_fall = 0F;
+
+    for(int i=0; i < tradeList.size()-1 ; i++){
+        Float fall = tradeList.get(i).getStockPrice() - tradeList.get(i+1).getStockPrice();
+        Float rise = tradeList.get(i+1).getStockPrice() - tradeList.get(i).getStockPrice();
+
+        if(fall > max_fall){
+          max_fall = fall;
+        }
+
+        if(rise > max_rise) {
+          max_rise = rise;
+        }
+    }
+    result.put("MaxRise",max_rise);
+    result.put("MaxFall",max_fall);
 
     return result;
   }

@@ -1,8 +1,11 @@
 package com.hackerrank.stocktrade.payload;
 
+import javax.persistence.Column;
+
 public class FluctuationCountResponse extends StockStatResponse{
 
   private Long fluctuations;
+  
   private Float max_rise;
   private Float max_fall;
 
