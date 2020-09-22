@@ -75,6 +75,11 @@ public class TradeService {
       return new ResponseEntity<>(new ApiResponse("Stock Symbol does not exist"), HttpStatus.NOT_FOUND);
     }
 
+    Calendar c = Calendar.getInstance();
+    c.setTime(endDate);
+    c.add(Calendar.DATE, 1);
+    endDate = c.getTime();
+
     Optional<HighestLowestPrice> priceDetail = tradeRepository.getHighestLowestPrice(stockSymbol,startDate,endDate);
     if(priceDetail.isPresent()){
       return new ResponseEntity<>(priceDetail.get(), HttpStatus.OK);
@@ -86,6 +91,11 @@ public class TradeService {
   public ResponseEntity<?> getStockFluctuations(Date startDate, Date endDate) {
 
     List<StockStatResponse> fluctuationCountResponses= new ArrayList<>();
+
+    Calendar c = Calendar.getInstance();
+    c.setTime(endDate);
+    c.add(Calendar.DATE, 1);
+    endDate = c.getTime();
 
     List<Trade> tradesList = tradeRepository.findStocksInRange(startDate,endDate);
     List<String> stocksInTradeList = tradesList.stream().map(trade -> trade.getStockSymbol()).collect(Collectors.toList());
