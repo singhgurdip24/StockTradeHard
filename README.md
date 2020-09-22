@@ -1,6 +1,6 @@
 # StockTradeHard
 
-<h1 align="center">Welcome to Stock Trade Hard 👋  <a href="https://github.com/singhgurdip24/StockTradeHard" target="_blank"></a></h1>
+<h1 align="center">Welcome to Stock Trade Application👋  <a href="https://github.com/singhgurdip24/StockTradeHard" target="_blank"></a></h1>
 
 > ### Stock Trade Hard built using Spring Boot
 
