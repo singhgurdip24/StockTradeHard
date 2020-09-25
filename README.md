@@ -1,6 +1,6 @@
 # StockTradeHard
 
-<h1 align="center">Welcome to Stock Trade Hard 👋  <a href="https://github.com/singhgurdip24/StockTradeHard" target="_blank"></a></h1>
+<h1 align="center">Welcome to Stock Trade Application👋  <a href="https://github.com/singhgurdip24/StockTradeHard" target="_blank"></a></h1>
 
 > ### Stock Trade Hard built using Spring Boot
 
@@ -9,11 +9,20 @@
 2. Spring Boot
 3. Maven
 
+# Usage (Running the Application) :-
+```sh
+mvn clean package spring-boot:repackage
+java -jar target/StockTradeHard-1.0-SNAPSHOT.jar
+```
+
 # Screenshots
 1) Spring Application Run Successfully:-
 
+![alt text](https://github.com/singhgurdip24/StockTradeHard/blob/master/images/Screenshot2?raw=true)
 
 2) Test Result Pass:-
+
+![alt text](https://github.com/singhgurdip24/StockTradeHard/blob/master/images/Screenshot1?raw=true)
 
 # Author
 
